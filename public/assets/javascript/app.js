@@ -22,6 +22,7 @@ $(document).ready(function () {
         }
         else {
 
+            $("#burgerName").val("");
             alert("Burger names are required, otherwise, how would we know what to serve you. Please enter a burger name and try submitting again.");
 
         }
