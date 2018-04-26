@@ -30,16 +30,19 @@ module.exports = function (app) {
     app.put("/api/burgers/:id", function (request, response) {
 
         db.Burger.update(
-            { devoured: true },
+            {
+                devoured: true
+            },
             {
                 where: { id: request.params.id }
-            }).then(function (result) {
+            }
+        ).then(function (result) {
 
-                if (result.changedRows === 0) return response.status(404).end();
-                console.log("\n >> app.put(...) succeeded!\n");
-                response.status(200).end();
+            if (result.changedRows === 0) return response.status(404).end();
+            console.log("\n >> app.put(...) succeeded!\n");
+            response.status(200).end();
 
-            });
+        });
 
     });
 

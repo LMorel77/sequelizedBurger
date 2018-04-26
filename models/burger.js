@@ -5,7 +5,7 @@ module.exports = function (sequelize, DataTypes) {
 
         burger_name: 
         {
-            type: DataTypes.STRING(128),
+            type: DataTypes.STRING,
             allowNull: false
         },
         devoured: 
@@ -19,7 +19,6 @@ module.exports = function (sequelize, DataTypes) {
     return Burger;
 
 };
-
 
 // ORM for 'Burger' model (Deprecated...now Sequelized up above)
 // var orm = require('../config/orm.js');

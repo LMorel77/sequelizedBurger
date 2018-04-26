@@ -38,6 +38,4 @@ $(".devourButton").on("click", function(event) {
 
 });
 
-
-
 });
