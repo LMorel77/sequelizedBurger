@@ -38,4 +38,19 @@ $(".devourButton").on("click", function(event) {
 
 });
 
+$(".clearButton").on("click", function(event) {
+
+    event.preventDefault();
+
+    $.ajax("/api/burgers/", {
+        method: 'DELETE',
+    }).then(function(error) {
+
+        if (error) throw error;
+        location.reload();
+
+    });
+
+});
+
 });

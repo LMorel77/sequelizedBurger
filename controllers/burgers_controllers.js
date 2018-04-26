@@ -1,4 +1,8 @@
+// Requiring our models (excluding "../models/index.js")
 var db = require("../models");
+
+// Requiring Sequelize for query ordering in 'get' route
+var Sequelize = require("sequelize");
 
 // Routes...
 module.exports = function (app) {
@@ -6,7 +10,11 @@ module.exports = function (app) {
     // Get Route
     app.get('/', function (request, response) {
 
-        db.Burger.findAll({}).then(function (data) {
+        db.Burger.findAll(
+
+            { order: Sequelize.col('burger_name') }
+
+        ).then(function (data) {
 
             var hbsObject = { burgers: data };
             response.render("index", hbsObject);
@@ -18,7 +26,11 @@ module.exports = function (app) {
     // Post Route
     app.post("/api/burgers", function (request, response) {
 
-        db.Burger.create({ burger_name: request.body.name }).then(function (data) {
+        db.Burger.create(
+
+            { burger_name: request.body.name }
+
+        ).then(function (data) {
 
             response.json({ id: data.insertId });
 
@@ -30,12 +42,10 @@ module.exports = function (app) {
     app.put("/api/burgers/:id", function (request, response) {
 
         db.Burger.update(
-            {
-                devoured: true
-            },
-            {
-                where: { id: request.params.id }
-            }
+
+            { devoured: true },
+            { where: { id: request.params.id } }
+
         ).then(function (result) {
 
             if (result.changedRows === 0) return response.status(404).end();
@@ -46,42 +56,19 @@ module.exports = function (app) {
 
     });
 
+    // Delete Route
+    app.delete("/api/burgers", function (request, response) {
+
+        db.Burger.destroy(
+
+            { where: { devoured: true } }
+
+        ).then(function () {
+
+            response.end();
+
+        });
+
+    });
+
 };
-
-// Express Router (Deprecated...Sequelized up above)
-// var burger = require('../models/burger.js');
-// var express = require('express');
-
-// // Creating server router
-// var router = express.Router();
-
-// // Get Route
-// router.get('/', function (request, response) {
-//     burger.all(function (data) {
-//         var hbsObject = {
-//             burgers: data
-//         };
-//         console.log("\n >> router.get(...) 'data':\n\n", data);
-//         response.render("index", hbsObject);
-//     });
-// });
-// // Post Route
-// router.post('/api/burgers', function (request, response) {
-//     burger.create({ burger_name: request.body.name }, function (result) {
-//         // Send back ID of new burger
-//         console.log("\n >> router.post(...) succeeded!\n");
-//         response.json({ id: result.insertId });
-//     });
-// });
-
-// // Put Route
-// router.put('/api/burgers/:id', function (request, response) {
-//     burger.update(
-//         { id: request.params.id }, function (result) {
-//             if (result.changedRows === 0) return response.status(404).end();
-//             console.log("\n >> router.put(...) succeeded!\n");
-//             response.status(200).end();
-//         });
-// });
-// // Exporting routes
-// module.exports = router;

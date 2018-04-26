@@ -18,8 +18,7 @@ app.engine("handlebars", expHbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Importing express server routes
-var routes = require("./controllers/burgers_controllers.js");
-app.use('/', routes);
+require("./controllers/burgers_controllers.js")(app);
 
 // Starting up express server
 var PORT = process.env.PORT || 8080;
