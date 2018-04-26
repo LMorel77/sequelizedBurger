@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 
 var app = express();
+var db = require("./models");
 
 // Serving 'public' directory
 app.use(express.static("public"));
@@ -22,9 +23,9 @@ app.use('/', routes);
 
 // Starting up express server
 var PORT = process.env.PORT || 8080;
-app.listen(PORT, function(error) {
 
-    if (error) throw error;
-    console.log("App listening at localhost:" + PORT);
-
+db.sequelize.sync().then(function () {
+    app.listen(PORT, function () {
+        console.log("App listening at localhost:" + PORT);
+    });
 });
