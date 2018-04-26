@@ -8,7 +8,7 @@ $(document).ready(function () {
             name: $("#burgerName").val().trim()
         };
 
-        if (name != "") {
+        if (newBurger.name != "") {
 
             $.ajax("/api/burgers", {
                 type: 'POST',
