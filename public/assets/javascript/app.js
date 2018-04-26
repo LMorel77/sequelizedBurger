@@ -1,56 +1,65 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-$("#submit").on("click", function(event) {
+    $("#submit").on("click", function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    var newBurger = {
-        name: $("#burgerName").val().trim()
-    };
+        var newBurger = {
+            name: $("#burgerName").val().trim()
+        };
 
-    $.ajax("/api/burgers", {
-        type: 'POST',
-        data: newBurger
-    }).then(function() {
+        if (name != "") {
 
-        location.reload();
+            $.ajax("/api/burgers", {
+                type: 'POST',
+                data: newBurger
+            }).then(function () {
 
-    });
+                location.reload();
 
-});
+            });
 
-$(".devourButton").on("click", function(event) {
+        }
+        else {
 
-    event.preventDefault();
+            alert("Burger names are required, otherwise, how would we know what to serve you. Please enter a burger name and try submitting again.");
 
-    var burgerId = $(this).data("id"); 
-
-    $.ajax("/api/burgers/" + burgerId, {
-        method: 'PUT',
-        data: burgerId
-    }).then(function(error) {
-
-        if (error) throw error;
-        location.reload();
+        }
 
     });
 
+    $(".devourButton").on("click", function (event) {
 
-});
+        event.preventDefault();
 
-$(".clearButton").on("click", function(event) {
+        var burgerId = $(this).data("id");
 
-    event.preventDefault();
+        $.ajax("/api/burgers/" + burgerId, {
+            method: 'PUT',
+            data: burgerId
+        }).then(function (error) {
 
-    $.ajax("/api/burgers/", {
-        method: 'DELETE',
-    }).then(function(error) {
+            if (error) throw error;
+            location.reload();
 
-        if (error) throw error;
-        location.reload();
+        });
+
 
     });
 
-});
+    $(".clearButton").on("click", function (event) {
+
+        event.preventDefault();
+
+        $.ajax("/api/burgers/", {
+            method: 'DELETE',
+        }).then(function (error) {
+
+            if (error) throw error;
+            location.reload();
+
+        });
+
+    });
 
 });
